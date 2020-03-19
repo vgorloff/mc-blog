@@ -1,6 +1,11 @@
 ---
-title: XcodeGen with Local Swift packages
-date: 2019-10-24
+published: true
+title: "XcodeGen with Local Swift packages"
+cover_image:
+description: "Explains how use XcodeGen with Local Swift packages"
+tags: swift, XcodeGen
+series:
+canonical_url:
 ---
 
 [XcodeGen](https://github.com/yonaskolb/XcodeGen) is a command line tool written in Swift that generates your Xcode project using your folder structure and a project spec. Since version [2.8.0](https://github.com/yonaskolb/XcodeGen/releases/tag/2.8.0) it supports Swift Package dependencies. It supports remote and local Swift Packages in same way as explained in WWDC 2019 Session 410 and shown in a WWDC [demo](https://developer.apple.com/videos/play/wwdc2019-410/?time=1447). But what if we want to use local Swift Package without corresponding remote part?
