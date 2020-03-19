@@ -11,7 +11,7 @@ canonical_url:
 
 One day in December 2018 I decided to repeat steps written in [Android.md](https://github.com/apple/swift/blob/master/docs/Android.md) readme-file from official Apple Swift [Git repository](https://github.com/apple/swift). Final goal was to experiment with Swift programming language on Android device I have.
 
-![Featured image](./victor-benard-588604-unsplash.jpeg "Swift on Android: Building toolchain")
+![Featured image](./victor-benard-588604-unsplash.jpeg 'Swift on Android: Building toolchain')
 
 Photo by [Victor Benard](https://unsplash.com/@vics_pics) on [Unsplash](https://unsplash.com/)
 
