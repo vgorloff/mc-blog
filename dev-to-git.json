@@ -2,5 +2,9 @@
   {
     "id": 284563,
     "relativePathToArticle": "./blog-posts/swift-on-android-building-toolchain/index.md"
+  },
+  {
+    "id": 284596,
+    "relativePathToArticle": "./blog-posts/swiftui-previews-in-modular-app-with-frameworks/index.md"
   }
 ]

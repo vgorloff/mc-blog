@@ -29,8 +29,6 @@ Here is a dependencies between components:
 Lets start building preview for view `GradientView.swift` made from code. Here is how `GradientView` is looks like:
 
 ```swift
-// code/GradientView.swift
-
 import Foundation
 import UIKit
 
@@ -69,7 +67,6 @@ extension GradientView {
 In order to preview this class in SwiftUI we need another type `GradientView_UI` which conforms to `UIViewRepresentable`.
 
 ```swift
-// code/GradientView_UI.swift
 import Foundation
 
 #if canImport(SwiftUI) && DEBUG
