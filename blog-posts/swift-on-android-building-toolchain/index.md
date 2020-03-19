@@ -1,9 +1,8 @@
 ---
 published: false
 title: "Swift on Android: Building toolchain"
-date: 2018-12-26
 cover_image: "https://raw.githubusercontent.com/vgorloff/mc-blog/master/blog-posts/swift-on-android-building-toolchain/victor-benard-588604-unsplash.jpeg"
-description:
+description: "Explains how to build Swift for Android on macOS"
 tags: swift, android
 series:
 canonical_url:
@@ -11,9 +10,6 @@ canonical_url:
 
 One day in December 2018 I decided to repeat steps written in [Android.md](https://github.com/apple/swift/blob/master/docs/Android.md) readme-file from official Apple Swift [Git repository](https://github.com/apple/swift). Final goal was to experiment with Swift programming language on Android device I have.
 
-![Featured image](./victor-benard-588604-unsplash.jpeg 'Swift on Android: Building toolchain')
-
-Photo by [Victor Benard](https://unsplash.com/@vics_pics) on [Unsplash](https://unsplash.com/)
 
 At that point of time Swift runtime on Linux was able to utilise Dispatch and Foundation frameworks. There were also various examples (like one from [Readdle](https://blog.readdle.com/why-we-use-swift-for-android-db449feeacaf)) how to build Swift toolchain (including Dispatch and Foundation frameworks) for Android.
 
@@ -189,21 +185,27 @@ If you can help with patches, especially by implementing missed parts of `FileMa
 
 Thank you!
 
+---
+
 ## Updates
 
-### Release 1.0.18–28 May 2019
+### Release 1.0.53 – 16 Jan 2020
+
+[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) uses monolithic LLVM, recent version of libDispatch and libFoundation. OpenSSL updated to OpenSSL_1_1_1d. CURL updated to curl-7_68_0.
+
+### Release 1.0.18 – 28 May 2019
 
 [Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) based on Swift 5.1. It contains less patches than were in Swift 5.0. Especially due new functionality which was implemented in Foundation library.
 
-### Release 1.0.15–10 May 2019
+### Release 1.0.15 – 10 May 2019
 
 [Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) enables x86_64 platform. As before it is available to download as pre-built distributable package.
 
-### Release 1.0.14–9 May 2019
+### Release 1.0.14 – 9 May 2019
 
 [Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) now available as pre-built distributable package. It can be downloaded and used to compile swift source code without need to compile toolchain itself.
 
-### Release 1.0.13–7 May 2019
+### Release 1.0.13 – 7 May 2019
 
 [Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) provides full support for 3 architectures (arm, aarch64, x86) in all toolchain components (including Dispatch and Foundation). When launching x86 build on Android Simulator, it still have runtime issue due missed `pthread_setname_np` symbol. Seems this is addressed wrong build settings in Swift core libraries and/or in `libFoundation` due missed `__ANDROID_API__` define.
 
@@ -214,3 +216,7 @@ Thank you!
 ### Release 1.0.4 — 29 December 2018
 
 [Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) removes dependency in `SwiftBuilder` from `build-script/build-script-impl` Python build script. It will allow to use only `CMake / Make` tools for building LLVM/Clang and Swift. Also added partial support of building Swift toolchain on macOS instead of Ununtu Linux. This will help to achieve faster builds in upcoming releases.
+
+---
+
+Featured image Photo by [Victor Benard](https://unsplash.com/@vics_pics) on [Unsplash](https://unsplash.com/)
