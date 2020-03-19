@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Swift on Android: Building toolchain"
 cover_image: "https://raw.githubusercontent.com/vgorloff/mc-blog/master/blog-posts/swift-on-android-building-toolchain/victor-benard-588604-unsplash.jpeg"
 description: "Explains how to build Swift for Android on macOS"
