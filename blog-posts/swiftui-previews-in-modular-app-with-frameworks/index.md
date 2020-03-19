@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "SwiftUI previews in Modular app with frameworks"
 cover_image:
 description: "Explains how to use SwiftUI previews in Modular app with frameworks"
