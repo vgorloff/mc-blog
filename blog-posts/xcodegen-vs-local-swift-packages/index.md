@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "XcodeGen with Local Swift packages"
 cover_image:
 description: "Explains how use XcodeGen with Local Swift packages"
