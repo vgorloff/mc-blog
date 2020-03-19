@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["embedme", "toolchain"]
+   "cSpell.words": [
+      "RUNPATH",
+      "Sublayer",
+      "Subviews",
+      "iphonesimulator",
+      "rpath",
+      "struct",
+      "swiftui"
+   ]
 }
