@@ -6,5 +6,9 @@
   {
     "id": 284596,
     "relativePathToArticle": "./blog-posts/swiftui-previews-in-modular-app-with-frameworks/index.md"
+  },
+  {
+    "id": 284621,
+    "relativePathToArticle": "./blog-posts/xcodegen-vs-local-swift-packages/index.md"
   }
 ]
