@@ -10,7 +10,6 @@ canonical_url:
 
 One day in December 2018 I decided to repeat steps written in [Android.md](https://github.com/apple/swift/blob/master/docs/Android.md) readme-file from official Apple Swift [Git repository](https://github.com/apple/swift). Final goal was to experiment with Swift programming language on Android device I have.
 
-
 At that point of time Swift runtime on Linux was able to utilise Dispatch and Foundation frameworks. There were also various examples (like one from [Readdle](https://blog.readdle.com/why-we-use-swift-for-android-db449feeacaf)) how to build Swift toolchain (including Dispatch and Foundation frameworks) for Android.
 
 After first attempts of building Swift compiler, Dispatch and Foundation frameworks it became clear that official [Android.md](https://github.com/apple/swift/blob/master/docs/Android.md) readme-file is not up to date. Other examples were either outdated (outdated NDK version or Swift version) or literally wasn’t working due execution errors in Shell scripts (like missed dependency or file).
