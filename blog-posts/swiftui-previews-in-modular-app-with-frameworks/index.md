@@ -1,6 +1,11 @@
 ---
-title: SwiftUI previews in Modular app with frameworks
-date: 2019-10-28
+published: false
+title: "SwiftUI previews in Modular app with frameworks"
+cover_image:
+description: "Explains how to use SwiftUI previews in Modular app with frameworks"
+tags: swift, android
+series:
+canonical_url:
 ---
 
 Say you have a modular [iOS application](https://github.com/vgorloff/mc-blog-swiftui-previews-in-modular-app-with-frameworks) which uses iOS frameworks for code separation. Say you also have a legacy UI made in `Xib` files or `Storyboards`, or views written in code. How to get all these types of UI working in SwiftUI previews in Xcode?
