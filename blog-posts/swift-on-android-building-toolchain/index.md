@@ -77,7 +77,7 @@ See [Samples projects](https://github.com/vgorloff/swift-everywhere-toolchain/tr
 
 The process is automated. All you need to do is to launch command `make`. It will show available build targets similar to shown below:
 
-```shell
+```sh
 $ make
 
 To Build Toolchain with One-Action:
@@ -171,7 +171,7 @@ Second series of patches addressed compiler defines similar to `DEPLOYMENT_TARGE
 
 Fix for missed `__CFConstantStringClassReference` symbol is most interesting. Without it you can build Swift toolchain, but demo project will fail to execute upon dynamic linking due missed symbol.
 
-```shell
+```sh
 -Xlinker --defsym -Xlinker '__CFConstantStringClassReference=$$s10Foundation19_NSCFConstantStringCN'
 ```
 
