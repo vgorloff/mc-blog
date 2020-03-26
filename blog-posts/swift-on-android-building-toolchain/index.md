@@ -188,6 +188,10 @@ Thank you!
 
 ## Updates
 
+### Release 1.0.54 – 25 Mar 2020
+
+[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) synchronized with update version 5.2. libDispatch, libFoundation, LLVM and Cmark updated to match Swift version 5.2.
+
 ### Release 1.0.53 – 16 Jan 2020
 
 [Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) uses monolithic LLVM, recent version of libDispatch and libFoundation. OpenSSL updated to OpenSSL_1_1_1d. CURL updated to curl-7_68_0.
