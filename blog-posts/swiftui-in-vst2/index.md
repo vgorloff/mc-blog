@@ -192,6 +192,8 @@ private:
 ```cpp
 // AttenuatorProcessor.cpp
 
+#include "AttenuatorProcessor.hpp"
+
 AudioEffect* createEffectInstance(audioMasterCallback audioMaster) {
    return new AttenuatorProcessor(audioMaster);
 }
@@ -333,13 +335,13 @@ PRODUCT_BUNDLE_IDENTIFIER = abc.example.AttenuatorVST2
 COMBINE_HIDPI_IMAGES = YES
 ```
 
-With the settings above the build product will be created directly in folder `$HOME/Library/Audio/Plug-Ins/VST` which is special system location in which VST Host can find our plug-in.
+With the settings above the build product will be created directly in folder `$HOME/Library/Audio/Plug-Ins/VST` which is a special system location in which VST Host can find our plug-in.
 
-Now we can go to **AttenuatorVST2** framework target and delete ❌ all build settings automatically create by Xcode.
+Now we can go to **AttenuatorVST2** framework target and delete ❌ all build settings automatically made by Xcode.
 
 ![Removing generated build settings](./03-updated-build-settings.png)
 
-Also we need to change product type of **AttenuatorVST2** framework target from `com.apple.product-type.framework` to `com.apple.product-type.bundle`. This can't be changed withing Xcode, so we need to manually edit file `AttenuatorVST2.xcodeproj/project.pbxproj` in text editor. After editing file please close and **reopen** Xcode project ‼️.
+Also we need to change product type of **AttenuatorVST2** framework target from `com.apple.product-type.framework` to `com.apple.product-type.bundle`. This **can't** 😮 be changed within Xcode, so we need to manually edit file `AttenuatorVST2.xcodeproj/project.pbxproj` in text editor. After editing file please close and **reopen** Xcode project ‼️.
 
 ```diff
 diff --git a/AttenuatorVST2.xcodeproj/project.pbxproj b/AttenuatorVST2.xcodeproj/project.pbxproj
@@ -364,11 +366,11 @@ After reopening Xcode project the icon of AttenuatorVST2 product will be changed
 
 ![AttenuatorVST2 framework converted to bundle](./03-updated-product-type.png)
 
-Before trying out plug-in in VST Host we need to update **Run** configuration of the **AttenuatorVST2** bundle build schema in the way so that Xcode should ask us every time which application to launch.
+Before trying out plug-in in VST Host we need to update **Run** configuration of the **AttenuatorVST2** build schema in the way so that Xcode should ask us every time which application to launch.
 
 ![Updating Run configuration of the AttenuatorVST2 framework](./03-updated-build-schema.png)
 
-Finally we can run our plug-in in VST Host environment. We can also change **Gain** parameter to alter volume on **Master** bus.
+Finally we can run our plug-in in VST Host environment. We can also change **Gain** parameter to alter volume on **Master** bus in VST Host application.
 
 ![AttenuatorVST2 inside Renoise](./03-plug-in-in-vst-host.png)
 
@@ -376,7 +378,7 @@ Summary of this step marked with git tag [Creating-Processing-part-of-Plug-In](h
 
 ## Creating Editor part of Plug-In <a name="chapter-4"></a>
 
-In Xcode 11.4 there still an issue when previewing SwiftUI made for macOS when UI files placed into separate framework. Attempt to preview raises error 😮📛.
+In Xcode 11.4 there still an issue when previewing SwiftUI made for macOS when UI files placed into separate framework. Attempt to preview raises an error 😮📛.
 
 ```log
  GenericHumanReadableError: unexpected error occurred
@@ -572,6 +574,9 @@ void AttenuatorEditor::setParameter(VstInt32 index, float value) {
 Attempt to build the project will raise various errors addressed build configuration 📛😬. The easiest way to fix is to create `AttenuatorVST2UI.xcconfig` file and remove build settings for `AttenuatorVST2UI` automatically created by Xcode.
 
 ```xcconfig
+
+// AttenuatorVST2UI.xcconfig
+
 INFOPLIST_FILE = AttenuatorVST2UI/Info.plist
 PRODUCT_BUNDLE_IDENTIFIER = abc.example.AttenuatorVST2UI
 PRODUCT_NAME = $(TARGET_NAME:c99extidentifier)
@@ -592,7 +597,7 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_pa
 
 ![File AttenuatorVST2UI.xcconfig in Project settings](./04-target-build-settings.png)
 
-Now all build errors are gone. We can start consuming `AttenuatorEditor` in `AttenuatorProcessor` bu implementing changes shown below.
+Now all build errors are gone. We can start consuming `AttenuatorEditor` in `AttenuatorProcessor` by implementing changes shown below.
 
 ```cpp
 // AttenuatorProcessor.hpp
@@ -600,7 +605,7 @@ Now all build errors are gone. We can start consuming `AttenuatorEditor` in `Att
 class AttenuatorProcessor : public AudioEffectX {
 public:
 
-   // Declarations skipped. They are not changed.
+   // Existing declarations skipped. They are not changed.
 
 private:
    bool mIsUpdatingGain; // 1️⃣ Used to avoid parameter change loopback.
@@ -644,7 +649,7 @@ void AttenuatorProcessor::setParameter (VstInt32 index, float value) {
 }
 ```
 
-That's it 🙂. Now we can run our plug-in in VST Host environment. Now VST Host shows **Ext. Editor** button which means that our plugin uses custom UI.
+That's it 🙂. Now we can run our plug-in in VST Host environment. Now VST Host shows **Ext. Editor** button which means that our plugin has custom UI.
 
 ![SwiftUI in VST2 Plug-In](./04-swiftui-in-vst2.png)
 
