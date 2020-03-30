@@ -660,3 +660,5 @@ We can change **Gain** in VST Host or in Plug-In UI. Changes are in sync. In ano
 Summary of this step marked with git tag [Creating-Editor-part-of-Plug-In](https://github.com/vgorloff/mc-blog-swiftui-in-vst2/tags).
 
 Good luck with SwiftUI and VST 👋!
+
+Sources of Plug-In can be found at [GitHub](https://github.com/vgorloff/mc-blog-swiftui-in-vst2).
