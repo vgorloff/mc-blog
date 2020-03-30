@@ -47,7 +47,7 @@ Most interesting part is to get VST SDK v2.4.2. It is discounted and not availab
 
 > One more thing we would like to point out at this stage: with the release of the [VST 3.6.11](https://www.steinberg.net/en/newsandevents/news/newsdetail/article/vst-3611-sdk-now-available-4906.html), **the SDK for VST 2 has officially been discontinued**. We are happy that third-party developers are now looking forward and will continue VST plug-in development with the SDK of VST 3.
 
-A lot of VST Host software still using VST SDK v2.4.2 plug-ins due their simplicity. Also worth to mention that not every VST Host Software has newer VST3 audio plug-ins support. There is a various of discussions about VST SDK v2.4.2 deprecation.
+A lot of VST Host software still using VST SDK v2.4.2 plug-ins due their simplicity. Also worth to mention that not every VST Host software has newer VST3 audio plug-ins support. There is a various of discussions about VST SDK v2.4.2 deprecation.
 
 - [VST SDK 3.6.12 - Audio Plugins - JUCE](https://forum.juce.com/t/vst-sdk-3-6-12/30703)
 - [The removal of JUCE embedded VST2 SDK - Audio Plugins - JUCE](https://forum.juce.com/t/the-removal-of-juce-s-embedded-vst2-sdk/29994)
@@ -86,11 +86,11 @@ First we need to make a scaffold of the plug-in Xcode project with integrated VS
 
    ⚠️ **Note**: The framework AttenuatorVST2UI should be not only liked, but also **copied** into Frameworks folder inside AttenuatorVST2.
 
-   ![Dependencies between frameworks](02-dependencies-between-frameworks.png)
+   ![Dependencies between frameworks](./02-dependencies-between-frameworks.png)
 
 Now we have scaffold of the plug-in Xcode project. You can build it. The framework AttenuatorVST2UI should be bundled inside framework AttenuatorVST.
 
-![AttenuatorVST2UI inside AttenuatorVST](02-embedded-framework.png)
+![AttenuatorVST2UI inside AttenuatorVST](./02-embedded-framework.png)
 
 Summary of this step marked with git tag [Creating-Plug-In-scaffold](https://github.com/vgorloff/mc-blog-swiftui-in-vst2/tags).
 
@@ -110,7 +110,7 @@ Time to write some C++ code.
 
 After adding processor sources the structure will look like shown below.
 
-![Added files to AttenuatorVST2](03-added-processor-files.png)
+![Added files to AttenuatorVST2](./03-added-processor-files.png)
 
 Xcode already showing missed file error 📛. We need to update build settings for framework **AttenuatorVST2**. The easiest way is to create `AttenuatorVST2.xcconfig` file and assign it to AttenuatorVST2 target in Xcode project preferences.
 
@@ -120,7 +120,7 @@ Xcode already showing missed file error 📛. We need to update build settings f
 HEADER_SEARCH_PATHS = $(VST2_SDK)/**
 ```
 
-![Added xcconfig-file to AttenuatorVST2](03-added-xcconfig-file.png)
+![Added xcconfig-file to AttenuatorVST2](./03-added-xcconfig-file.png)
 
 Attempt to build will lead to another error 📛 addressed compiler dialect.
 
@@ -337,7 +337,7 @@ With the settings above the build product will be created directly in folder `$H
 
 Now we can go to **AttenuatorVST2** framework target and delete ❌ all build settings automatically create by Xcode.
 
-![Removing generated build settings](03-updated-build-settings.png)
+![Removing generated build settings](./03-updated-build-settings.png)
 
 Also we need to change product type of **AttenuatorVST2** framework target from `com.apple.product-type.framework` to `com.apple.product-type.bundle`. This can't be changed withing Xcode, so we need to manually edit file `AttenuatorVST2.xcodeproj/project.pbxproj` in text editor. After editing file please close and **reopen** Xcode project ‼️.
 
@@ -362,15 +362,15 @@ index dc58c17606358ff83949c7427b85c29fed34b0c3..d40b71a6f404183f0891e0e478c4d502
 
 After reopening Xcode project the icon of AttenuatorVST2 product will be changed to one which represents bundle.
 
-![AttenuatorVST2 framework converted to bundle](03-updated-product-type.png)
+![AttenuatorVST2 framework converted to bundle](./03-updated-product-type.png)
 
 Before trying out plug-in in VST Host we need to update **Run** configuration of the **AttenuatorVST2** bundle build schema in the way so that Xcode should ask us every time which application to launch.
 
-![Updating Run configuration of the AttenuatorVST2 framework](03-updated-build-schema.png)
+![Updating Run configuration of the AttenuatorVST2 framework](./03-updated-build-schema.png)
 
 Finally we can run our plug-in in VST Host environment. We can also change **Gain** parameter to alter volume on **Master** bus.
 
-![AttenuatorVST2 inside Renoise](03-plug-in-in-vst-host.png)
+![AttenuatorVST2 inside Renoise](./03-plug-in-in-vst-host.png)
 
 Summary of this step marked with git tag [Creating-Processing-part-of-Plug-In](https://github.com/vgorloff/mc-blog-swiftui-in-vst2/tags).
 
@@ -389,7 +389,7 @@ In Xcode 11.4 there still an issue when previewing SwiftUI made for macOS when U
 
 But we still can use Playground to design SwiftUI for macOS. Once SwiftUI design is done, then we can add new file with name `MainUI.swift` and copy/paste contents from Playground.
 
-![Slider in Playground](04-slider-in-playground.png)
+![Slider in Playground](./04-slider-in-playground.png)
 
 ```swift
 // MainUI.swift
@@ -590,7 +590,7 @@ DYLIB_INSTALL_NAME_BASE = @rpath
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_path/Frameworks
 ```
 
-![File AttenuatorVST2UI.xcconfig in Project settings](04-target-build-settings.png)
+![File AttenuatorVST2UI.xcconfig in Project settings](./04-target-build-settings.png)
 
 Now all build errors are gone. We can start consuming `AttenuatorEditor` in `AttenuatorProcessor` bu implementing changes shown below.
 
@@ -646,11 +646,11 @@ void AttenuatorProcessor::setParameter (VstInt32 index, float value) {
 
 That's it 🙂. Now we can run our plug-in in VST Host environment. Now VST Host shows **Ext. Editor** button which means that our plugin uses custom UI.
 
-![SwiftUI in VST2 Plug-In](04-swiftui-in-vst2.png)
+![SwiftUI in VST2 Plug-In](./04-swiftui-in-vst2.png)
 
 We can change **Gain** in VST Host or in Plug-In UI. Changes are in sync. In another VST Host, the **Reaper**, behavior is similar.
 
-![SwiftUI in VST2 Plug-In](04-swiftui-in-reaper.png)
+![SwiftUI in VST2 Plug-In](./04-swiftui-in-reaper.png)
 
 Summary of this step marked with git tag [Creating-Editor-part-of-Plug-In](https://github.com/vgorloff/mc-blog-swiftui-in-vst2/tags).
 
