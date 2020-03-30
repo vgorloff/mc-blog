@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Using SwiftUI in VST2 Plug-In"
 cover_image:
 description: "Explains how use SwiftUI in VST2 Plug-In"
