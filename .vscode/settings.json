@@ -1,12 +1,17 @@
 {
    "cSpell.words": [
+      "DYLIB",
+      "JUCE",
       "RUNPATH",
+      "Renoise",
       "Steinberg",
       "Sublayer",
       "Subviews",
       "iphonesimulator",
+      "objc",
       "rpath",
       "struct",
-      "swiftui"
+      "swiftui",
+      "xcconfig"
    ]
 }

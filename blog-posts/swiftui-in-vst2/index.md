@@ -15,9 +15,9 @@ canonical_url:
 * [Creating Processing part of Plug-In](#chapter-3)
 * [Creating Editor part of Plug-In](#chapter-4)
 
-Let's make Audio Plug-In in VST 2.4.2 format which uses SwiftUI in UI editor. The processor of this plug-in will change the **Gain** of incoming audio signal.
+Let's make an [Audio Plug-In](https://github.com/vgorloff/mc-blog-swiftui-in-vst2) in VST 2.4.2 format which uses SwiftUI in Effect editor. The processor part of this plug-in will change the gain of incoming audio signal.
 
-Some historical notes:
+Few historical notes:
 
 [Virtual Studio Technology - Wikipedia](https://en.wikipedia.org/wiki/Virtual_Studio_Technology)
 
@@ -31,15 +31,15 @@ In this tutorial we will use VST SDK v2.4.2 which was published in 2006. Thus th
 
 ## Preparations <a name="chapter-1"></a>
 
-We need tree pieces: Xcode 11.4, VST SDK v2.4.2 and VST Host Software to run our audio Plug-In.
+We need tree pieces: Xcode 11.4, VST SDK v2.4.2 and VST Host software to run our audio plug-in.
 
 ### Xcode
 
-The easiest part is Xcode 11.4. It can be downloaded from [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or from [Apple Developer portal](https://developer.apple.com/download/more/).
+The easiest part is to get Xcode 11.4. It can be downloaded from [Mac App Store](https://apps.apple.com/us/app/xcode/id497799835?mt=12) or from [Apple Developer portal](https://developer.apple.com/download/more/).
 
-### VST Host Software
+### VST Host software
 
-For VST Host Software we can use [Renoise 3.2.1](https://www.renoise.com/download). Demo version of this app has some limitations, but it is enough to run our plug-in in debug mode. Another good VST Host is [REAPER](https://www.reaper.fm/download.php). But it has protection against debugging and reverse engineering. So, we can use it to test plug-in in **non-debug** mode only.
+For VST Host software we can use [Renoise 3.2.1](https://www.renoise.com/download). Demo version of this app has several limitations, but it is enough to run our plug-in in **debug** mode. Another good VST Host is a [REAPER](https://www.reaper.fm/download.php). But it has protection against debugging and reverse engineering. So, we can use it to test plug-in in **non-debug** mode only.
 
 ### VST SDK v2.4.2
 
@@ -47,52 +47,52 @@ Most interesting part is to get VST SDK v2.4.2. It is discounted and not availab
 
 > One more thing we would like to point out at this stage: with the release of the [VST 3.6.11](https://www.steinberg.net/en/newsandevents/news/newsdetail/article/vst-3611-sdk-now-available-4906.html), **the SDK for VST 2 has officially been discontinued**. We are happy that third-party developers are now looking forward and will continue VST plug-in development with  the SDK of VST 3.
 
-A lot of VST Host Software still using VST SDK v2.4.2 plug-ins due their simplicity. Also worth to mention that not every VST Host Software has VST3 audio plug-ins support. There is a various of discussions about VST SDK v2.4.2 deprecation.
+A lot of VST Host software still using VST SDK v2.4.2 plug-ins due their simplicity. Also worth to mention that not every VST Host Software has newer VST3 audio plug-ins support. There is a various of discussions about VST SDK v2.4.2 deprecation.
 
-- [VST SDK 3.6.12 - Audio Plugins - JUCE](https://forum.juce.com/t/vst-sdk-3-6-12/30703)
-- [The removal of JUCE’s embedded VST2 SDK - Audio Plugins - JUCE](https://forum.juce.com/t/the-removal-of-juce-s-embedded-vst2-sdk/29994)
+* [VST SDK 3.6.12 - Audio Plugins - JUCE](https://forum.juce.com/t/vst-sdk-3-6-12/30703)
+* [The removal of JUCE embedded VST2 SDK - Audio Plugins - JUCE](https://forum.juce.com/t/the-removal-of-juce-s-embedded-vst2-sdk/29994)
 
 **BUT**. We still can download VST SDK v2.4.2 from internet archives. Here is some links:
 
-- [Internet Archive: VST2 SDK](https://archive.org/details/VST2SDK) - will be used in this tutorial ✅.
-- [Wayback Machine: VST SDK 3.6.11](https://web.archive.org/web/20181016150224/https://download.steinberg.net/sdk_downloads/vstsdk3610_11_06_2018_build_37.zip) - includes VST2 SDK.
+* [Internet Archive: VST2 SDK](https://archive.org/details/VST2SDK) - will be used in this tutorial ✅.
+* [Wayback Machine: VST SDK 3.6.11](https://web.archive.org/web/20181016150224/https://download.steinberg.net/sdk_downloads/vstsdk3610_11_06_2018_build_37.zip) - includes VST2 SDK.
 
-Another way – is to extract VST SDK v2.4.2 sources from GitHub projects.
+Another way – is to extract VST SDK v2.4.2 sources from projects hosted on GitHub.
 
-- [GitHub Search · aeffect.h](https://github.com/search?l=C%2B%2B&p=2&q=aeffect.h&type=Code)
+* [GitHub Search · aeffect.h](https://github.com/search?l=C%2B%2B&p=2&q=aeffect.h&type=Code)
 
 In this tutorial we will use VST SDK v2.4.2 from [Internet Archive](https://archive.org/details/VST2SDK) website.
 
-![iOS App in iOS Simulator](./01-vst-sdk-2.4.2-download.png)
+![VST SDK Download](./01-vst-sdk-2.4.2-download.png)
 
 After downloading you should have file structure like shown below. Whole VST SDK v2.4.2 consists with only **9** files 🙃.
 
-![iOS App in iOS Simulator](./01-vst-sdk-2.4.2-contents.png)
+![Contents of VST SDK Download](./01-vst-sdk-2.4.2-contents.png)
 
 ## Creating Plug-In scaffold <a name="chapter-2"></a>
 
 First we need to make a scaffold of the plug-in Xcode project with integrated VST SDK v2.4.2.
 
-1. Configure path to VST SDK v2.4.2 in Xcode. We will use this path later in the project ✅.
+1. Configure path to VST SDK v2.4.2 in Xcode. We will use this setting later in the project ✅.
 
     ![VST SDK Location](./02-vst-sdk-location.png)
-    
-2. Create Xcode project with two frameworks. First Obj-C Framework with name **AttenuatorVST2** - the processor, and second Swift Framework with name **AttenuatorVST2UI** - an editor.
+
+2. Create Xcode project with two frameworks. First Obj-C Framework with name **AttenuatorVST2** – the processor, and second Swift Framework with name **AttenuatorVST2UI** – an editor.
 
     ![Framework AttenuatorVST2](./02-framework-objc.png)
     ![Framework AttenuatorVST2UI](./02-framework-swift.png)
-    
+
 3. Establish dependency between AttenuatorVST2 and AttenuatorVST2UI frameworks.
 
     ⚠️ **Note**: The framework AttenuatorVST2UI should be not only liked, but also **copied** into Frameworks folder inside AttenuatorVST2.
-    
-    ![Dependencies between frameworks](02-dependencies-between-framewoks.png)
+
+    ![Dependencies between frameworks](02-dependencies-between-frameworks.png)
 
 Now we have scaffold of the plug-in Xcode project. You can build it. The framework AttenuatorVST2UI should be bundled inside framework AttenuatorVST.
 
-![AttenuatorVST2UI inside AttenuatorVST](02-embeded-framework.png)
+![AttenuatorVST2UI inside AttenuatorVST](02-embedded-framework.png)
 
-Summary of this step marked with git tag `Creating-Plug-In-scaffold`.
+Summary of this step marked with git tag [Creating-Plug-In-scaffold](https://github.com/vgorloff/mc-blog-swiftui-in-vst2/tags).
 
 ## Creating Processing part of Plug-In <a name="chapter-3"></a>
 
@@ -108,8 +108,8 @@ Time to write some C++ code.
     #include "audioeffectx.cpp"
     ```
 
-After adding processor sources the strusture will look like shown below.
-    
+After adding processor sources the structure will look like shown below.
+
 ![Added files to AttenuatorVST2](03-added-processor-files.png)
 
 Xcode already showing missed file error 📛. We need to update build settings for framework **AttenuatorVST2**. The easiest way is to create `AttenuatorVST2.xcconfig` file and assign it to AttenuatorVST2 target in Xcode project preferences.
@@ -124,12 +124,12 @@ HEADER_SEARCH_PATHS = $(VST2_SDK)/**
 
 Attempt to build will lead to another error 📛 addressed compiler dialect.
 
-```
+```log
 /Users/Shared/Developer/libs/Audio/vstsdk2.4rev2/public.sdk/source/vst2.x/audioeffect.cpp:512:20: error: non-constant-expression cannot be narrowed from type 'int' to 'char' in initializer list [-Wc++11-narrowing]
                         char temp[2] = {'0' + (char)digit, '\0'};
 ```
 
-Well the VST SDK we are using was made in 2006. So we need to downgrade compiler dialect to `gnu++98` to turn it to warning 😬.
+Well the VST SDK we are using was made in 2006. So, we need to downgrade compiler dialect to `gnu++98` to turn it to warning 😬.
 
 ```xcconfig
 // AttenuatorVST2.xcconfig
@@ -141,7 +141,7 @@ CLANG_CXX_LANGUAGE_STANDARD = gnu++98
 CLANG_WARN_DOCUMENTATION_COMMENTS = NO
 ```
 
-Attempt to build will lead to another error 📛 addressed missed symbol. But this is expected since we not implemented required functions in plug-in processor yet. In order to fix we will implement simple `gain` plugin. The functionality is the same as in `again` plugin shipped with VST SDK in `$VST2_SDK/public.sdk/samples/vst2.x/again`.
+Attempt to build will lead to another error 📛 addressed missed symbol. But this is expected since we not implemented required functions in plug-in processor yet. In order to fix we will implement simple **gain** plug-in. The functionality is the same as in `again` plug-in shipped with VST SDK in `$VST2_SDK/public.sdk/samples/vst2.x/again`.
 
 ```cpp
 // AttenuatorProcessor.hpp
@@ -153,14 +153,14 @@ Attempt to build will lead to another error 📛 addressed missed symbol. But th
 
 class AttenuatorProcessor : public AudioEffectX {
 public:
-   
+
    AttenuatorProcessor(audioMasterCallback audioMaster);
    virtual ~AttenuatorProcessor();
-   
+
    // MARK: - Processing
    virtual void processReplacing(float **inputs, float **outputs, VstInt32 sampleFrames);
    virtual void processDoubleReplacing (double** inputs, double** outputs, VstInt32 sampleFrames);
-   
+
    // MARK: - Programs
    virtual void setProgramName (char* name);
    virtual void getProgramName (char* name);
@@ -172,15 +172,15 @@ public:
    virtual void getParameterLabel (VstInt32 index, char* label);
    virtual void getParameterDisplay (VstInt32 index, char* text);
    virtual void getParameterName (VstInt32 index, char* text);
-   
+
    // MARK: - Metadata
    virtual bool getEffectName (char* name);
    virtual bool getVendorString (char* text);
    virtual bool getProductString (char* text);
-   
+
    virtual VstInt32 getVendorVersion () { return 1000; }
    virtual VstPlugCategory getPlugCategory () { return kPlugCategEffect; }
-   
+
 private:
    float mGain;
    char programName[kVstMaxProgNameLen + 1];
@@ -203,7 +203,7 @@ AttenuatorProcessor::AttenuatorProcessor(audioMasterCallback audioMaster)
    setUniqueID ('MyAg');   // identify. Kind of unique ID of plug-in.
    canProcessReplacing (); // supports replacing output
    canDoubleReplacing ();  // supports double precision processing
-   
+
    mGain = 1.f;           // default to 0 dB
    vst_strncpy(programName, "Default", kVstMaxProgNameLen);   // default program name
 }
@@ -215,12 +215,12 @@ AttenuatorProcessor::~AttenuatorProcessor() {
 // MARK: - Processing
 
 void AttenuatorProcessor::processReplacing (float** inputs, float** outputs, VstInt32 sampleFrames) {
-   
+
    float* in1  =  inputs[0];
    float* in2  =  inputs[1];
    float* out1 = outputs[0];
    float* out2 = outputs[1];
-   
+
    while (--sampleFrames >= 0) {
       (*out1++) = (*in1++) * mGain;
       (*out2++) = (*in2++) * mGain;
@@ -228,13 +228,13 @@ void AttenuatorProcessor::processReplacing (float** inputs, float** outputs, Vst
 }
 
 void AttenuatorProcessor::processDoubleReplacing (double** inputs, double** outputs, VstInt32 sampleFrames) {
-   
+
    double* in1  =  inputs[0];
    double* in2  =  inputs[1];
    double* out1 = outputs[0];
    double* out2 = outputs[1];
    double dGain = mGain;
-   
+
    while (--sampleFrames >= 0) {
       (*out1++) = (*in1++) * dGain;
       (*out2++) = (*in2++) * dGain;
@@ -295,8 +295,9 @@ bool AttenuatorProcessor::getVendorString (char* text) {
 }
 ```
 
+Now we can build project. It will compiled and linked successfully.
 
-Now we can build project. It will compiled and linked successfully. Time to try using it in VST Host [Renoise](https://www.renoise.com/download). Before doing this we need to configure Xcode build scheme and update build settings to make it VST Host compatible.
+Time to try using it in VST Host [Renoise](https://www.renoise.com/download). Before doing this we need to configure Xcode build scheme and update build settings to make it VST Host compatible.
 
 First lets update build settings in file `AttenuatorVST2.xcconfig`.
 
@@ -336,7 +337,7 @@ With the settings above the build product will be created directly in folder `$H
 
 Now we can go to **AttenuatorVST2** framework target and delete ❌ all build settings automatically create by Xcode.
 
-![Removing autogenerated build settings](03-updated-build-settings.png)
+![Removing generated build settings](03-updated-build-settings.png)
 
 Also we need to change product type of **AttenuatorVST2** framework target from `com.apple.product-type.framework` to `com.apple.product-type.bundle`. This can't be changed withing Xcode, so we need to manually edit file `AttenuatorVST2.xcodeproj/project.pbxproj` in text editor. After editing file please close and **reopen** Xcode project ‼️.
 
@@ -346,24 +347,24 @@ index dc58c17606358ff83949c7427b85c29fed34b0c3..d40b71a6f404183f0891e0e478c4d502
 --- a/AttenuatorVST2.xcodeproj/project.pbxproj
 +++ b/AttenuatorVST2.xcodeproj/project.pbxproj
 @@ -170,8 +170,8 @@
- 			);
- 			name = AttenuatorVST2;
- 			productName = AttenuatorVST2;
--			productReference = 808BBC7D2431F41F0053814A /* AttenuatorVST2.framework */;
--			productType = "com.apple.product-type.framework";
-+			productReference = 808BBC7D2431F41F0053814A /* AttenuatorVST2.vst */;
-+			productType = "com.apple.product-type.bundle";
- 		};
- 		808BBC8C2431F46A0053814A /* AttenuatorVST2UI */ = {
- 			isa = PBXNativeTarget;
+         );
+         name = AttenuatorVST2;
+         productName = AttenuatorVST2;
+-        productReference = 808BBC7D2431F41F0053814A /* AttenuatorVST2.framework */;
+-        productType = "com.apple.product-type.framework";
++        productReference = 808BBC7D2431F41F0053814A /* AttenuatorVST2.vst */;
++        productType = "com.apple.product-type.bundle";
+      };
+      808BBC8C2431F46A0053814A /* AttenuatorVST2UI */ = {
+         isa = PBXNativeTarget;
 
 ```
 
-After reopening Xcode project the icon of AttenuatorVST2 product will be changed to another one.
+After reopening Xcode project the icon of AttenuatorVST2 product will be changed to one which represents bundle.
 
 ![AttenuatorVST2 framework converted to bundle](03-updated-product-type.png)
 
-Before trying out plug-in in VST Host we need to update Run configuration of the **AttenuatorVST2** framework build schema so that Xcode should ask us every time which application to launch.
+Before trying out plug-in in VST Host we need to update **Run** configuration of the **AttenuatorVST2** bundle build schema in the way so that Xcode should ask us every time which application to launch.
 
 ![Updating Run configuration of the AttenuatorVST2 framework](03-updated-build-schema.png)
 
@@ -371,13 +372,13 @@ Finally we can run our plug-in in VST Host environment. We can also change **Gai
 
 ![AttenuatorVST2 inside Renoise](03-plug-in-in-vst-host.png)
 
-Summary of this step marked with git tag `Creating-Processing-part-of-Plug-In`.
+Summary of this step marked with git tag [Creating-Processing-part-of-Plug-In](https://github.com/vgorloff/mc-blog-swiftui-in-vst2/tags).
 
 ## Creating Editor part of Plug-In <a name="chapter-4"></a>
 
-In Xcode 11.4 there stil an issue when previwing SwiftUI made for macOS when UI files placed into separate framework. Attempt to preview raizes error 😮📛.
+In Xcode 11.4 there still an issue when previewing SwiftUI made for macOS when UI files placed into separate framework. Attempt to preview raises error 😮📛.
 
-```
+```log
  GenericHumanReadableError: unexpected error occurred
 
  messageRepliedWithError(
@@ -386,7 +387,7 @@ In Xcode 11.4 there stil an issue when previwing SwiftUI made for macOS when UI 
 )
 ```
 
-But we still can use Playground to design SwiftUI for macOS. Once SwiftUI design is done, then we can add new file with name `MainUI.swift` and copy/paste contents of Playgroung.
+But we still can use Playground to design SwiftUI for macOS. Once SwiftUI design is done, then we can add new file with name `MainUI.swift` and copy/paste contents from Playground.
 
 ![Slider in Playground](04-slider-in-playground.png)
 
@@ -398,17 +399,17 @@ import Combine
 import SwiftUI
 
 final class SliderData: ObservableObject {
-   
+
    @Published var gain: Float = 100
 }
 
 @objc(MainView)
 public class MainView: NSView {
-   
+
    private let sliderData = SliderData()
-   
+
    @objc public var onDidChange: ((Float) -> Void)?
-   
+
    public override init(frame frameRect: NSRect) {
       super.init(frame: frameRect)
       wantsLayer = true
@@ -425,11 +426,11 @@ public class MainView: NSView {
       topAnchor.constraint(equalTo: view.topAnchor).isActive = true
       bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
    }
-   
+
    public required dynamic init?(coder aDecoder: NSCoder) {
       fatalError()
    }
-   
+
    @objc public func setGain(_ value: Float) {
       print("MainView> Value from Host: \(value)")
       sliderData.gain = 100 * value
@@ -437,16 +438,16 @@ public class MainView: NSView {
 }
 
 struct MainUI: View {
-   
+
    @EnvironmentObject var sliderData: SliderData
    @State var gain: Float = 100
-   
+
    private var onChanged: (Float) -> Void
-   
+
    init(onChanged: @escaping (Float) -> Void) {
       self.onChanged = onChanged
    }
-   
+
    var body: some View {
       VStack {
          Slider(value: Binding<Float>(get: { self.gain }, set: {
@@ -459,7 +460,7 @@ struct MainUI: View {
 }
 ```
 
-We can't expose SwiftUI view `MainUI` directly into Obj-C world. That's why we need to wrap it into `MainView` which can be used in VST Host environment. Here how `MainView` exposed to Obj-C. It has method `setGain` and callback `onDidChange` which together allow to keep plug-in UI and VST Host state in sync.
+We can't expose SwiftUI view `MainUI` directly into Obj-C world. That's why we need to wrap it into `MainView` which can be used in VST Host environment. Here is how `MainView` exposed to Obj-C. It has method `setGain` and callback `onDidChange` which together allow to keep plug-in UI and VST Host in sync.
 
 ```objc
 SWIFT_CLASS_NAMED("MainView")
@@ -493,15 +494,15 @@ class AttenuatorEditor : public AEffEditor
 public:
    AttenuatorEditor (AudioEffect* ptr);
    virtual ~AttenuatorEditor();
-   
+
    virtual bool open (void* ptr);
    virtual void close ();
    virtual bool getRect (ERect** rect);
-   
+
    virtual void setParameter (VstInt32 index, float value);
-   
+
 private:
-   
+
    ERect   rect;
    MainView* mView;
 };
@@ -566,9 +567,9 @@ void AttenuatorEditor::setParameter(VstInt32 index, float value) {
 }
 ```
 
-In short: Inside funtion call `bool AttenuatorEditor::open(void* ptr)` VST Host provides us pointer to `NSView *`. We are using that view to attach plug-in UI made in SwiftUI.
+**In short**: Inside function call `bool AttenuatorEditor::open(void* ptr)` VST Host provides us pointer to `NSView *`. We are using that view to attach plug-in UI.
 
-Attempt to build the project will raise various errors addressed build configuration 📛😬. The easies way to fix is to create `AttenuatorVST2UI.xcconfig` file and remove all custom build settings for `AttenuatorVST2UI` target.
+Attempt to build the project will raise various errors addressed build configuration 📛😬. The easiest way to fix is to create `AttenuatorVST2UI.xcconfig` file and remove build settings for `AttenuatorVST2UI`  automatically created by Xcode.
 
 ```xcconfig
 INFOPLIST_FILE = AttenuatorVST2UI/Info.plist
@@ -591,41 +592,16 @@ LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_pa
 
 ![File AttenuatorVST2UI.xcconfig in Project settings](04-target-build-settings.png)
 
-Now we need to consum `AttenuatorEditor` in `AttenuatorProcessor`.
+Now all build errors are gone. We can start consuming `AttenuatorEditor` in `AttenuatorProcessor` bu implementing changes shown below.
 
 ```cpp
 // AttenuatorProcessor.hpp
 
 class AttenuatorProcessor : public AudioEffectX {
 public:
-   
-   AttenuatorProcessor(audioMasterCallback audioMaster);
-   virtual ~AttenuatorProcessor();
-   
-   // MARK: - Processing
-   virtual void processReplacing(float **inputs, float **outputs, VstInt32 sampleFrames);
-   virtual void processDoubleReplacing (double** inputs, double** outputs, VstInt32 sampleFrames);
-   
-   // MARK: - Programs
-   virtual void setProgramName (char* name);
-   virtual void getProgramName (char* name);
 
-   // MARK: - Parameters
-   virtual void setParameterAutomated (VstInt32 index, float value);
-   virtual void setParameter (VstInt32 index, float value);
-   virtual float getParameter (VstInt32 index);
-   virtual void getParameterLabel (VstInt32 index, char* label);
-   virtual void getParameterDisplay (VstInt32 index, char* text);
-   virtual void getParameterName (VstInt32 index, char* text);
-   
-   // MARK: - Metadata
-   virtual bool getEffectName (char* name);
-   virtual bool getVendorString (char* text);
-   virtual bool getProductString (char* text);
-   
-   virtual VstInt32 getVendorVersion () { return 1000; }
-   virtual VstPlugCategory getPlugCategory () { return kPlugCategEffect; }
-   
+   // Declarations skipped. They are not changed.
+
 private:
    bool mIsUpdatingGain; // 1️⃣ Used to avoid parameter change loopback.
    float mGain;
@@ -646,10 +622,10 @@ AttenuatorProcessor::AttenuatorProcessor(audioMasterCallback audioMaster)
    setUniqueID ('MyAg');   // identify. Kind of unique ID of plug-in.
    canProcessReplacing (); // supports replacing output
    canDoubleReplacing ();  // supports double precision processing
-   
+
    mGain = 1.f;           // default to 0 dB
    vst_strncpy(programName, "Default", kVstMaxProgNameLen);   // default program name
-   
+
    this->setEditor (new AttenuatorEditor(this)); // 2️⃣ Using editor.
 }
 
@@ -666,16 +642,16 @@ void AttenuatorProcessor::setParameter (VstInt32 index, float value) {
       ((AttenuatorEditor *)editor)->setParameter(index, value); // 4️⃣ Updating UI from VST Host.
    }
 }
-```  
+```
 
-Now we can run our plug-in in VST Host environment. Now VST Host shows **Ext. Editor** button which means that our plugin uses custom UI.
+That's it 🙂. Now we can run our plug-in in VST Host environment. Now VST Host shows **Ext. Editor** button which means that our plugin uses custom UI.
 
 ![SwiftUI in VST2 Plug-In](04-swiftui-in-vst2.png)
 
-We can change Gain in VST Host or in Plug-In UI. Changes are in sync. In another VST Host **Reaper** behaviour is the same.
+We can change **Gain** in VST Host or in Plug-In UI. Changes are in sync. In another VST Host, the **Reaper**, behavior is similar.
 
 ![SwiftUI in VST2 Plug-In](04-swiftui-in-reaper.png)
 
-Summary of this step marked with git tag `Creating-Editor-part-of-Plug-In`.
+Summary of this step marked with git tag [Creating-Editor-part-of-Plug-In](https://github.com/vgorloff/mc-blog-swiftui-in-vst2/tags).
 
 Good luck with SwiftUI and VST 👋!
