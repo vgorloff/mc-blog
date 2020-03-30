@@ -10,10 +10,10 @@ canonical_url:
 
 ## On this Page
 
-* [Preparations](#chapter-1)
-* [Creating Plug-In scaffold](#chapter-2)
-* [Creating Processing part of Plug-In](#chapter-3)
-* [Creating Editor part of Plug-In](#chapter-4)
+- [Preparations](#chapter-1)
+- [Creating Plug-In scaffold](#chapter-2)
+- [Creating Processing part of Plug-In](#chapter-3)
+- [Creating Editor part of Plug-In](#chapter-4)
 
 Let's make an [Audio Plug-In](https://github.com/vgorloff/mc-blog-swiftui-in-vst2) in VST 2.4.2 format which uses SwiftUI in Effect editor. The processor part of this plug-in will change the gain of incoming audio signal.
 
@@ -23,7 +23,7 @@ Few historical notes:
 
 > VST was developed by Steinberg Media Technologies in **1996**. It creates a complete, professional studio environment on the PC or Mac.
 
-[Swift (programming language) - Wikipedia](https://en.wikipedia.org/wiki/Swift_(programming_language))
+[Swift (programming language) - Wikipedia](<https://en.wikipedia.org/wiki/Swift_(programming_language)>)
 
 > During WWDC **2019**, Apple announced SwiftUI, which provides a framework for declarative UI structure design across all Apple platforms.
 
@@ -45,21 +45,21 @@ For VST Host software we can use [Renoise 3.2.1](https://www.renoise.com/downloa
 
 Most interesting part is to get VST SDK v2.4.2. It is discounted and not available for download anymore from official [Steinberg website](https://www.steinberg.net/en/company/developers.html).
 
-> One more thing we would like to point out at this stage: with the release of the [VST 3.6.11](https://www.steinberg.net/en/newsandevents/news/newsdetail/article/vst-3611-sdk-now-available-4906.html), **the SDK for VST 2 has officially been discontinued**. We are happy that third-party developers are now looking forward and will continue VST plug-in development with  the SDK of VST 3.
+> One more thing we would like to point out at this stage: with the release of the [VST 3.6.11](https://www.steinberg.net/en/newsandevents/news/newsdetail/article/vst-3611-sdk-now-available-4906.html), **the SDK for VST 2 has officially been discontinued**. We are happy that third-party developers are now looking forward and will continue VST plug-in development with the SDK of VST 3.
 
 A lot of VST Host software still using VST SDK v2.4.2 plug-ins due their simplicity. Also worth to mention that not every VST Host Software has newer VST3 audio plug-ins support. There is a various of discussions about VST SDK v2.4.2 deprecation.
 
-* [VST SDK 3.6.12 - Audio Plugins - JUCE](https://forum.juce.com/t/vst-sdk-3-6-12/30703)
-* [The removal of JUCE embedded VST2 SDK - Audio Plugins - JUCE](https://forum.juce.com/t/the-removal-of-juce-s-embedded-vst2-sdk/29994)
+- [VST SDK 3.6.12 - Audio Plugins - JUCE](https://forum.juce.com/t/vst-sdk-3-6-12/30703)
+- [The removal of JUCE embedded VST2 SDK - Audio Plugins - JUCE](https://forum.juce.com/t/the-removal-of-juce-s-embedded-vst2-sdk/29994)
 
 **BUT**. We still can download VST SDK v2.4.2 from internet archives. Here is some links:
 
-* [Internet Archive: VST2 SDK](https://archive.org/details/VST2SDK) - will be used in this tutorial ✅.
-* [Wayback Machine: VST SDK 3.6.11](https://web.archive.org/web/20181016150224/https://download.steinberg.net/sdk_downloads/vstsdk3610_11_06_2018_build_37.zip) - includes VST2 SDK.
+- [Internet Archive: VST2 SDK](https://archive.org/details/VST2SDK) - will be used in this tutorial ✅.
+- [Wayback Machine: VST SDK 3.6.11](https://web.archive.org/web/20181016150224/https://download.steinberg.net/sdk_downloads/vstsdk3610_11_06_2018_build_37.zip) - includes VST2 SDK.
 
 Another way – is to extract VST SDK v2.4.2 sources from projects hosted on GitHub.
 
-* [GitHub Search · aeffect.h](https://github.com/search?l=C%2B%2B&p=2&q=aeffect.h&type=Code)
+- [GitHub Search · aeffect.h](https://github.com/search?l=C%2B%2B&p=2&q=aeffect.h&type=Code)
 
 In this tutorial we will use VST SDK v2.4.2 from [Internet Archive](https://archive.org/details/VST2SDK) website.
 
@@ -75,18 +75,18 @@ First we need to make a scaffold of the plug-in Xcode project with integrated VS
 
 1. Configure path to VST SDK v2.4.2 in Xcode. We will use this setting later in the project ✅.
 
-    ![VST SDK Location](./02-vst-sdk-location.png)
+   ![VST SDK Location](./02-vst-sdk-location.png)
 
 2. Create Xcode project with two frameworks. First Obj-C Framework with name **AttenuatorVST2** – the processor, and second Swift Framework with name **AttenuatorVST2UI** – an editor.
 
-    ![Framework AttenuatorVST2](./02-framework-objc.png)
-    ![Framework AttenuatorVST2UI](./02-framework-swift.png)
+   ![Framework AttenuatorVST2](./02-framework-objc.png)
+   ![Framework AttenuatorVST2UI](./02-framework-swift.png)
 
 3. Establish dependency between AttenuatorVST2 and AttenuatorVST2UI frameworks.
 
-    ⚠️ **Note**: The framework AttenuatorVST2UI should be not only liked, but also **copied** into Frameworks folder inside AttenuatorVST2.
+   ⚠️ **Note**: The framework AttenuatorVST2UI should be not only liked, but also **copied** into Frameworks folder inside AttenuatorVST2.
 
-    ![Dependencies between frameworks](02-dependencies-between-frameworks.png)
+   ![Dependencies between frameworks](02-dependencies-between-frameworks.png)
 
 Now we have scaffold of the plug-in Xcode project. You can build it. The framework AttenuatorVST2UI should be bundled inside framework AttenuatorVST.
 
@@ -102,11 +102,11 @@ Time to write some C++ code.
 2. Add to the framework AttenuatorVST2 one C++ file (without header): `vst2sdk.cpp`.
 3. Replace contents file `vst2sdk.cpp` with code shown below.
 
-    ```cpp
-    #include "vstplugmain.cpp"
-    #include "audioeffect.cpp"
-    #include "audioeffectx.cpp"
-    ```
+   ```cpp
+   #include "vstplugmain.cpp"
+   #include "audioeffect.cpp"
+   #include "audioeffectx.cpp"
+   ```
 
 After adding processor sources the structure will look like shown below.
 
@@ -569,7 +569,7 @@ void AttenuatorEditor::setParameter(VstInt32 index, float value) {
 
 **In short**: Inside function call `bool AttenuatorEditor::open(void* ptr)` VST Host provides us pointer to `NSView *`. We are using that view to attach plug-in UI.
 
-Attempt to build the project will raise various errors addressed build configuration 📛😬. The easiest way to fix is to create `AttenuatorVST2UI.xcconfig` file and remove build settings for `AttenuatorVST2UI`  automatically created by Xcode.
+Attempt to build the project will raise various errors addressed build configuration 📛😬. The easiest way to fix is to create `AttenuatorVST2UI.xcconfig` file and remove build settings for `AttenuatorVST2UI` automatically created by Xcode.
 
 ```xcconfig
 INFOPLIST_FILE = AttenuatorVST2UI/Info.plist

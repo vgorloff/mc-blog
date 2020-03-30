@@ -10,5 +10,9 @@
   {
     "id": 284621,
     "relativePathToArticle": "./blog-posts/xcodegen-vs-local-swift-packages/index.md"
+  },
+  {
+    "id": 295157,
+    "relativePathToArticle": "./blog-posts/swiftui-in-vst2/index.md"
   }
 ]
