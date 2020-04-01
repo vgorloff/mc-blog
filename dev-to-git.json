@@ -14,5 +14,9 @@
   {
     "id": 295157,
     "relativePathToArticle": "./blog-posts/swiftui-in-vst2/index.md"
+  },
+  {
+    "id": 296293,
+    "relativePathToArticle": "./blog-posts/swiftui-preview-in-playground/index.md"
   }
 ]
