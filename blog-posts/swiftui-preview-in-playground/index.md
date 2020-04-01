@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Workaround for broken SwiftUI previews in macOS Frameworks"
 cover_image:
 description: "Explains how to apply workaround for broken SwiftUI previews in macOS Frameworks"
@@ -40,3 +40,5 @@ PlaygroundPage.current.setLiveView(view) // 2️⃣ Presenting custom SwiftUI as
 ![Playground shortcuts](./03-playground-shortcuts.png)
 
 Happy coding 👋!
+
+Sources of the sample project can be found at [GitHub](https://github.com/vgorloff/mc-blog-swiftui-preview-in-playground).
