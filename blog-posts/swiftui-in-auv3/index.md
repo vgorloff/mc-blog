@@ -18,27 +18,27 @@ canonical_url:
 
 AudioUnit v3 plug-ins needs to be implemented as **Application Extension**. Thus we need first to create host application.
 
-![](./01-creating-app.png)
+![Creating Host App](./01-creating-app.png)
 
-![](./01-creating-app-settings.png)
+![Creating Host App - Settings](./01-creating-app-settings.png)
 
 Now we can add AudioUnit extension into the host app.
 
-![](./01-creating-au.png)
+![Creating AU](./01-creating-au.png)
 
-![](./01-creating-au-settings.png)
+![Creating AU - Settings](./01-creating-au-settings.png)
 
 Now we can run and debug our plugin in some AUv3 host. For instance in Juce [AudioPluginHost.app](https://github.com/WeAreROLI/JUCE/tree/master/extras/AudioPluginHost/Builds/MacOSX) or in GarageBang.app.
 
-![](./01-au-schema.png)
+![AU Build Schema](./01-au-schema.png)
 
-![](./01-au-in-garage-band.png)
+![AU in GarageBand.app](./01-au-in-garage-band.png)
 
 **Note** ⚠️: If you are getting error `EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)` try to enable **Thread sanitizer** in Run configuration.
 
-![](./01-error-running-au.png)
+![AU Runtime Error](./01-error-running-au.png)
 
-![](./01-enabling-tsan.png)
+![AU Enabling Tsan](./01-enabling-tsan.png)
 
 While GarageBand.app is running, the plug-in temporary remains registered in the system. So, we can also check presence of it in system by using `auval` tool.
 
@@ -127,7 +127,7 @@ $ pluginkit -m
 
 Here is how plug-in works in [AudioPluginHost](https://github.com/WeAreROLI/JUCE/tree/master/extras/AudioPluginHost/Builds/MacOSX) from [JUCE SDK](https://juce.com).
 
-![](./01-au-in-juce.png)
+![AU in Juce](./01-au-in-juce.png)
 
 I found JUCE host better then GarageBand.app because it allows to automate plug-in parameters. This is significant value for testing.
 
@@ -139,7 +139,7 @@ Xcode created default implementation of AudioUnit, DSP processor and Helper clas
 
 After refactoring project structure will look like below.
 
-![](./02-project-after-refactoring.png)
+![AU Project after Refactoring](./02-project-after-refactoring.png)
 
 ```c
 // AttenuatorAU-Bridging-Header.h
@@ -602,7 +602,7 @@ struct MainUI: View {
 
 Here is how refactored plug-in looks in Juce AudioPluginHost.app.
 
-![](./02-au-in-juce.png)
+![AU in Juce](./02-au-in-juce.png)
 
 Summary of this step marked with git tag [02-Refactored-PlugIn-Code](https://github.com/vgorloff/mc-blog-swiftui-in-auv3/tags).
 
@@ -894,7 +894,7 @@ Drawing model and maximum magnitude wired together in a view controller, via cal
 
 Finally we have a plug-in with visual feedback, which shows volume level of incoming signal.
 
-![](./03-plugin-with-vu-in-juce.png)
+![AU with VU in Juce](./03-plugin-with-vu-in-juce.png)
 
 Summary of this step marked with git tag [03-Created-VU-Meter](https://github.com/vgorloff/mc-blog-swiftui-in-auv3/tags).
 
