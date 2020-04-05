@@ -131,6 +131,8 @@ Here is how plug-in works in [AudioPluginHost](https://github.com/WeAreROLI/JUCE
 
 I found JUCE host better then GarageBand.app because it allows to automate plug-in parameters. This is significant value for testing.
 
+Summary of this step marked with git tag [01-PlugIn-Scaffold](https://github.com/vgorloff/mc-blog-swiftui-in-auv3/tags).
+
 ## Refactoring DSP and UI implementation <a name="chapter-2"></a>
 
 Xcode created default implementation of AudioUnit, DSP processor and Helper classes. For our Attenuator plug-in we don't need code related to MIDI events processing. Also we want to use Swift as much as possible. Plus we want to use SwiftUI in a plug-in view.
@@ -602,6 +604,8 @@ Here is how refactored plug-in looks in Juce AudioPluginHost.app.
 
 ![](./02-au-in-juce.png)
 
+Summary of this step marked with git tag [02-Refactored-PlugIn-Code](https://github.com/vgorloff/mc-blog-swiftui-in-auv3/tags).
+
 ## Adding VU meter backed by Metal <a name="chapter-3"></a>
 
 Now we have a simple Attenuator plug-in. Lets add VU meter which will show level of incoming signal.
@@ -892,4 +896,8 @@ Finally we have a plug-in with visual feedback, which shows volume level of inco
 
 ![](./03-plugin-with-vu-in-juce.png)
 
+Summary of this step marked with git tag [03-Created-VU-Meter](https://github.com/vgorloff/mc-blog-swiftui-in-auv3/tags).
+
 Happy coding! 🙃
+
+Sources of Plug-In can be found at [GitHub](https://github.com/vgorloff/mc-blog-swiftui-in-auv3).
