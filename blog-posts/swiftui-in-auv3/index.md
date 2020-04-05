@@ -10,41 +10,37 @@ canonical_url:
 
 ## On this Page
 
-- [Preparations](#chapter-1)
-- [Creating Plug-In scaffold](#chapter-2)
-- [Creating Processing part of Plug-In](#chapter-3)
-- [Creating Editor part of Plug-In](#chapter-4)
+- [Creating Plug-In scaffold](#chapter-1)
+- [Refactoring DSP and UI implementation](#chapter-2)
+- [Adding VU meter backed by Metal](#chapter-3)
 
-## Preparations <a name="chapter-1"></a>
+## Creating Plug-In scaffold <a name="chapter-1"></a>
 
-
-## Creating Plug-In scaffold <a name="chapter-2"></a>
-
-AudioUnit v3 plug-ins implemented as Application Extension. Thus we need first to create host application.
+AudioUnit v3 plug-ins needs to be implemented as **Application Extension**. Thus we need first to create host application.
 
 ![](./01-creating-app.png)
 
 ![](./01-creating-app-settings.png)
 
-Now we can add AudioUnit extension into host app.
+Now we can add AudioUnit extension into the host app.
 
 ![](./01-creating-au.png)
 
 ![](./01-creating-au-settings.png)
 
-Now we can run and debug our plugin in some AUv3 host. For instance in GarageBang.app.
+Now we can run and debug our plugin in some AUv3 host. For instance in Juce [AudioPluginHost.app](https://github.com/WeAreROLI/JUCE/tree/master/extras/AudioPluginHost/Builds/MacOSX) or in GarageBang.app.
 
 ![](./01-au-schema.png)
 
 ![](./01-au-in-garage-band.png)
 
-Note: If you are getting error `EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)` try to enable
+**Note** ⚠️: If you are getting error `EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)` try to enable **Thread sanitizer** in Run configuration.
 
 ![](./01-error-running-au.png)
 
 ![](./01-enabling-tsan.png)
 
-While GarageBand.app is running plug-in temporary remains registered in the system. So, we can also check presence of our plug-in in system by using `auval` tool.
+While GarageBand.app is running, the plug-in temporary remains registered in the system. So, we can also check presence of it in system by using `auval` tool.
 
 ```bash
 $ auval -s aufx 2>/dev/null
@@ -54,7 +50,7 @@ $ auval -s aufx 2>/dev/null
     Copyright 2003-2019, Apple Inc. All Rights Reserved.
     Specify -h (-help) for command options
 
-aufx attr HOME  -  HOME: AttenuatorAU
+aufx attr HOME  -  HOME: AttenuatorAU ⬅️
 aufx bpas appl  -  Apple: AUBandpass
 aufx dcmp appl  -  Apple: AUDynamicsProcessor
 ...
@@ -86,14 +82,14 @@ AU VALIDATION SUCCEEDED.
 --------------------------------------------------
 ```
 
-Another way to check if the plug-in registered in system is to use `pluginkit` tool.
+Another way to check if the plug-in registered in system, is to use `pluginkit` tool.
 
 ```bash
 $ pluginkit -m
 
      com.apple.AppSSOKerberos.KerberosExtension(1.0)
      com.apple.diagnosticextensions.osx.timemachine(1.0)
-!    abc.example.Attenuator.AttenuatorAU(1.0)
+!    abc.example.Attenuator.AttenuatorAU(1.0) ⬅️
 +    com.apple.share.System.add-to-safari-reading-list(641.6)
 +    com.apple.ncplugin.weather(1.0)
      com.apple.diagnosticextensions.osx.syslog(1.0)
@@ -101,7 +97,7 @@ $ pluginkit -m
      ...
 ```
 
-Note: Once we will stop debug session in GarageBang.app. The plug-in will be unregistered from the system.
+**Note** ⚠️: Once we will stop debug session in GarageBang.app or in Juce AudioPluginHost.app. The plug-in will be unregistered from the system.
 
 ```bash
 $ auval -s aufx 2>/dev/null
@@ -129,15 +125,15 @@ $ pluginkit -m
      ...
 ```
 
-Another AUv3 host which can be used for Testing is a [AudioPluginHost](https://github.com/WeAreROLI/JUCE/tree/master/extras/AudioPluginHost/Builds/MacOSX) from [JUCE SDK](https://juce.com).
+Here is how plug-in works in [AudioPluginHost](https://github.com/WeAreROLI/JUCE/tree/master/extras/AudioPluginHost/Builds/MacOSX) from [JUCE SDK](https://juce.com).
 
 ![](./01-au-in-juce.png)
 
-I found JUCE host better then GarageBand.app because it allows to automate plug-in parameters.
+I found JUCE host better then GarageBand.app because it allows to automate plug-in parameters. This is significant value for testing.
 
-## Refactoring DSP and UI implementation <a name="chapter-3"></a>
+## Refactoring DSP and UI implementation <a name="chapter-2"></a>
 
-Xcode created default implementation of AudioUnit, DSP processor and Helper classes. For our Attenuator plugin we don't need code related to MIDI events processing. Also we want to use Swift as mush as possible. Plus we want to use SwiftUI as a plugin view.
+Xcode created default implementation of AudioUnit, DSP processor and Helper classes. For our Attenuator plug-in we don't need code related to MIDI events processing. Also we want to use Swift as much as possible. Plus we want to use SwiftUI in a plug-in view.
 
 After refactoring project structure will look like below.
 
@@ -170,7 +166,7 @@ After refactoring project structure will look like below.
 #endif /* AttenuatorDSP_h */
 ```
 
-DSP not doing any work related to bus management. It just changing input data to output data based on current plug-in parameters.
+DSP not doing any work related to bus management. It just altering input data to output data based on current plug-in parameters.
 
 ```objc
 // AttenuatorDSP.mm
@@ -457,7 +453,7 @@ class AttenuatorAudioUnit: AUAudioUnit {
 }
 ```
 
-View controller acts as a factory and cluing UI and AudioUnit together.
+View controller acts as a factory and a clue between UI and AudioUnit.
 
 ```swift
 // AudioUnitViewController.swift
@@ -570,7 +566,7 @@ class MainView: NSView {
 }
 ```
 
-View contains Slider to control gain.
+View contains Slider to control value of the gain parameter.
 
 ```swift
 // MainUI.swift
@@ -602,15 +598,15 @@ struct MainUI: View {
 }
 ```
 
-Here is how refactored plug-in looks in Juce AU host.
+Here is how refactored plug-in looks in Juce AudioPluginHost.app.
 
 ![](./02-au-in-juce.png)
 
-## Adding VU meter backed by Metal <a name="chapter-4"></a>
+## Adding VU meter backed by Metal <a name="chapter-3"></a>
 
 Now we have a simple Attenuator plug-in. Lets add VU meter which will show level of incoming signal.
 
-First what we need to do is to calculate and expose from DSP maximum magnitude value.
+First, on DSP side, we need to calculate maximum magnitude value.
 
 ```objs
 
@@ -669,7 +665,7 @@ First what we need to do is to calculate and expose from DSP maximum magnitude v
 @end
 ```
 
-Then we need to create Metal view which will do VU level drawing.
+Then we need to create Metal view which will render VU level.
 
 ```swift
 // VUView.swift
@@ -826,7 +822,7 @@ extension VUView {
 }
 ```
 
-And of cause shaders.
+And of cause we need to create Metal shaders.
 
 ```cpp
 // VUView.metal
@@ -861,7 +857,7 @@ fragment_line(ColoredVertex vert [[stage_in]]) {
 }
 ```
 
-Drawing state and value of DSP's maximum magnitude wired in view controller via callback.
+Drawing model and maximum magnitude wired together in a view controller, via callback.
 
 ```swift
 
@@ -892,8 +888,8 @@ Drawing state and value of DSP's maximum magnitude wired in view controller via 
    }
 ```
 
-Now we have plug-in with visual feedback whcih shows VU level of incoming signal!
+Finally we have a plug-in with visual feedback, which shows volume level of incoming signal.
 
 ![](./03-plugin-with-vu-in-juce.png)
 
-Happy coding!
+Happy coding! 🙃
