@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: "Using SwiftUI and Metal in AudioUnit v3 Plug-In"
 cover_image:
 description: "Explains how use SwiftUI and Metal in AudioUnit v3 Plug-In"
