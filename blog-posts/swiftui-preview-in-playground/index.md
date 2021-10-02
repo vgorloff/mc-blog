@@ -1,8 +1,8 @@
 ---
 published: true
-title: "Workaround for broken SwiftUI previews in macOS Frameworks"
+title: 'Workaround for broken SwiftUI previews in macOS Frameworks'
 cover_image:
-description: "Explains how to apply workaround for broken SwiftUI previews in macOS Frameworks"
+description: 'Explains how to apply workaround for broken SwiftUI previews in macOS Frameworks'
 tags: swift, swiftui, macOS
 series:
 canonical_url:

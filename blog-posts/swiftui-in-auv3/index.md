@@ -1,8 +1,8 @@
 ---
 published: true
-title: "Using SwiftUI and Metal in AudioUnit v3 Plug-In"
+title: 'Using SwiftUI and Metal in AudioUnit v3 Plug-In'
 cover_image:
-description: "Explains how use SwiftUI and Metal in AudioUnit v3 Plug-In"
+description: 'Explains how use SwiftUI and Metal in AudioUnit v3 Plug-In'
 tags: swift, au, swiftui, metal
 series:
 canonical_url:

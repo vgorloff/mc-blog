@@ -1,8 +1,8 @@
 ---
 published: true
-title: "XcodeGen with Local Swift packages"
+title: 'XcodeGen with Local Swift packages'
 cover_image:
-description: "Explains how use XcodeGen with Local Swift packages"
+description: 'Explains how use XcodeGen with Local Swift packages'
 tags: swift, XcodeGen
 series:
 canonical_url:

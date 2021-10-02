@@ -1,8 +1,8 @@
 ---
 published: true
-title: "SwiftUI previews in Modular app with frameworks"
+title: 'SwiftUI previews in Modular app with frameworks'
 cover_image:
-description: "Explains how to use SwiftUI previews in Modular app with frameworks"
+description: 'Explains how to use SwiftUI previews in Modular app with frameworks'
 tags: swift, swiftui
 series:
 canonical_url:

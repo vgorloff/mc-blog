@@ -1,5 +1,6 @@
 {
   "name": "dev.to",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/vgorloff/mc-blog.git"
@@ -17,6 +18,6 @@
   "dependencies": {
     "dev-to-git": "1.4.1",
     "embedme": "1.20.0",
-    "prettier": "2.0.2"
+    "gulp": "^4.0.2"
   }
 }

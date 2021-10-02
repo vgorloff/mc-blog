@@ -1,8 +1,8 @@
 ---
 published: true
-title: "Using SwiftUI in VST2 Plug-In"
+title: 'Using SwiftUI in VST2 Plug-In'
 cover_image:
-description: "Explains how use SwiftUI in VST2 Plug-In"
+description: 'Explains how use SwiftUI in VST2 Plug-In'
 tags: swift, vst2, swiftui
 series:
 canonical_url:

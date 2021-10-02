@@ -1,17 +1,24 @@
 {
-   "cSpell.words": [
-      "DYLIB",
-      "JUCE",
-      "RUNPATH",
-      "Renoise",
-      "Steinberg",
-      "Sublayer",
-      "Subviews",
-      "iphonesimulator",
-      "objc",
-      "rpath",
-      "struct",
-      "swiftui",
-      "xcconfig"
-   ]
+  "cSpell.words": [
+    "DYLIB",
+    "JUCE",
+    "RUNPATH",
+    "Renoise",
+    "Steinberg",
+    "Sublayer",
+    "Subviews",
+    "iphonesimulator",
+    "objc",
+    "rpath",
+    "struct",
+    "swiftui",
+    "xcconfig"
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true
+  }
 }
