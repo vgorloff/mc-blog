@@ -31,3 +31,8 @@ gulp.task('build', cb => {
   _run('yarn run embedme:check');
   cb();
 });
+
+gulp.task('pub', cb => {
+  _run('yarn run dev-to-git');
+  cb();
+});

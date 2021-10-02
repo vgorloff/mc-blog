@@ -180,7 +180,7 @@ Next goal is to fix shell scripts from Swift repository. So that after following
 
 Ideally we need to achieve automated builds for Swift toolchain for Android on official [Swift CI](https://swift.org/continuous-integration/) system.
 
-If you can help with patches, especially by implementing missed parts of `FileManager.swift` file for Android system, then go ahead fork Swift Git repository, implement changes and make pull request.
+If you can help with patches, then go ahead and fork Swift Git repository, implement changes and make pull request.
 
 Thank you!
 
@@ -188,37 +188,7 @@ Thank you!
 
 ## Updates
 
-### Release 1.0.54 – 25 Mar 2020
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) synchronized with update version 5.2. libDispatch, libFoundation, LLVM and Cmark updated to match Swift version 5.2.
-
-### Release 1.0.53 – 16 Jan 2020
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) uses monolithic LLVM, recent version of libDispatch and libFoundation. OpenSSL updated to OpenSSL_1_1_1d. CURL updated to curl-7_68_0.
-
-### Release 1.0.18 – 28 May 2019
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) based on Swift 5.1. It contains less patches than were in Swift 5.0. Especially due new functionality which was implemented in Foundation library.
-
-### Release 1.0.15 – 10 May 2019
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) enables x86_64 platform. As before it is available to download as pre-built distributable package.
-
-### Release 1.0.14 – 9 May 2019
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) now available as pre-built distributable package. It can be downloaded and used to compile swift source code without need to compile toolchain itself.
-
-### Release 1.0.13 – 7 May 2019
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) provides full support for 3 architectures (arm, aarch64, x86) in all toolchain components (including Dispatch and Foundation). When launching x86 build on Android Simulator, it still have runtime issue due missed `pthread_setname_np` symbol. Seems this is addressed wrong build settings in Swift core libraries and/or in `libFoundation` due missed `__ANDROID_API__` define.
-
-### Release 1.0.7 — 8 March 2019
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) adds support for Swift 5 and Android NDK v19. Build workflow was updated to avoid usage of NDK Standalone toolchains as recommended in NDK release notes. Some patches removed due same configuration achieved by more precise CMake settings.
-
-### Release 1.0.4 — 29 December 2018
-
-[Release](https://github.com/vgorloff/swift-everywhere-toolchain/releases) removes dependency in `SwiftBuilder` from `build-script/build-script-impl` Python build script. It will allow to use only `CMake / Make` tools for building LLVM/Clang and Swift. Also added partial support of building Swift toolchain on macOS instead of Ununtu Linux. This will help to achieve faster builds in upcoming releases.
+You can find [Releases](https://github.com/vgorloff/swift-everywhere-toolchain/releases), Discussions and Issues in GitHub [Repository](https://github.com/vgorloff/swift-everywhere-toolchain).
 
 ---
 
