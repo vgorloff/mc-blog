@@ -33,6 +33,7 @@ gulp.task('build', cb => {
 });
 
 gulp.task('pub', cb => {
-  _run('yarn run dev-to-git');
+  // The command may fail due error: https://github.com/maxime1992/dev-to-git/issues/26
+  _run(`DEV_TO_GIT_TOKEN=${process.env.DEV_TO_GIT_TOKEN} yarn run dev-to-git`);
   cb();
 });
